@@ -50,11 +50,23 @@ app.get("/auth/login", (req, res)=>{
 app.get("/blog/author/:id", (req, res)=>{
     res.render("dashboard")
 })
+
 app.use((error, req, res, next)=>{
+    console.log('Path: ', req.path)
+    console.error('Error: ', error)
+
     if(error){
-    
+        res.status(500).json({
+            message:err.message
+        })
     }
+    next()
 })
+
+app.get('*', (req, res) => {
+    res.json({ message: 'Route not found', code: 404 })
+})
+
 app.listen(PORT, ()=>{
     console.log(`server is running on http://localhost:${PORT}`)
 })
