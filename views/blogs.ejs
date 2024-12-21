@@ -1,58 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/styles.css" />
     <title>Published Articles</title>
-</head>
-<body>
+  </head>
+  <body>
     <%- include("./partials/header.ejs") %>
     <main class="container">
-        <div class="blog-hero">
-            <div class="overlay"></div>
-        </div>
-        <section>
+      <div class="blog-hero">
+        <div class="overlay"></div>
+      </div>
+      <section>
         <h2 class="heading">Recently Published Articles</h2>
         <%if(blogs && blogs.length > 0){%>
-            <form action="/blog" method="get">
-                <input type="text" name="author" id="author" placeholder="Search by author" value="<%= filter.author %>">
-                <input type="text" name="title" id="title" placeholder="Search by title" value="<%= filter.title %>">
-                <input type="text" name="tags" id="tags" placeholder="Search by tags" value="<%= filter.tags %>">
-                <input type="number" name="read_time" id="read_time" placeholder="Min read time" value="<%= filter.read_time %>">
-                <input type="number" name="read_count" id="read_count" placeholder="Min read count" value="<%= filter.read_count %>">
-                <button type="submit">Search</button>
-            </form>
-            <div class="blog-list">
+        <div id="two-col-wrap">
+          <form action="/blog" method="get">
+            <input
+              type="text"
+              name="author"
+              id="author"
+              placeholder="Search by author"
+              value="<%= filter.author %>"
+            />
+            <input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Search by title"
+              value="<%= filter.title %>"
+            />
+            <input
+              type="text"
+              name="tags"
+              id="tags"
+              placeholder="Search by tags"
+              value="<%= filter.tags %>"
+            />
+            <input
+              type="number"
+              name="read_time"
+              id="read_time"
+              placeholder="Min read time"
+              value="<%= filter.read_time %>"
+            />
+            <input
+              type="number"
+              name="read_count"
+              id="read_count"
+              placeholder="Min read count"
+              value="<%= filter.read_count %>"
+            />
+            <button type="submit">Search</button>
+          </form>
+          <div class="blog-list">
             <%blogs.forEach((blog)=>{%>
-                <article class="blog-list-item">
-                    <h2> <%=blog.title%> </h2>
-                    <p><%=blog.description.substring(0, 150) %>...</p>
-                    <small>by <%=blog.user_id.first_name + " " + blog.user_id.last_name %> </small>
-                    <a href="/blog/<%=blog._id%>"> READ MORE</a>
-                </article>
+            <article class="blog-list-item">
+              <h2><%=blog.title%></h2>
+              <p><%=blog.description.substring(0, 150) %>...</p>
+              <small
+                >by <%=blog.user_id.first_name + " " + blog.user_id.last_name %>
+              </small>
+              <a href="/blog/<%=blog._id%>"> READ MORE</a>
+            </article>
             <%})%>
-            </div>
+          </div>
+        </div>
 
         <%}else{%>
-            <h3 class="heading_two" >Sorry, no article found</h3>
+        <h3 class="heading_two">Sorry, no article found</h3>
         <% }%>
-        
-        </section>
-    
-        <div class="pagination">
-            <% if (hasPrevPage) { %>
-                <a href="/blog?page=<%= prevPage %>">Previous</a>
-            <% } %>
+      </section>
 
-            <span>Page <%= currentPage %> of <%= totalPages %></span>
+      <div class="pagination">
+        <% if (hasPrevPage) { %>
+        <a href="/blog?page=<%= prevPage %>">Previous</a>
+        <% } %>
 
-            <% if (hasNextPage) { %>
-                <a href="/blog?page=<%= nextPage %>">Next</a>
-            <% } %>
-        </div> 
+        <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+        <% if (hasNextPage) { %>
+        <a href="/blog?page=<%= nextPage %>">Next</a>
+        <% } %>
+      </div>
     </main>
     <%- include("./partials/footer.ejs") %>
-    
-</body>
+  </body>
 </html>
