@@ -1,0 +1,28 @@
+<header>
+    <nav>
+        <a href="/">
+            <img src="/assets/oJtech.png" alt="ojtech-logo">
+        </a>
+        <% if(user){%>
+            <div class="auth_user">
+                <small >welcome back, <%= user.first_name %> </small>
+                <ul>
+                    <li>
+                        <a href="/blog">Blog</a>
+                    </li>
+                    <li id="dashboard-link">
+                        <a href="/blog/author/<%=user._id%>"><img src="/assets/user-regular.svg" alt="dashboard"></a>
+                    </li>
+                </ul>
+                <a href="/create-new" class="create-btn"> Create <span>+</span> </a>
+            </div>
+        <%}else{%>
+            <ul>
+                <li><a href="/auth/signup">Signup</a></li>
+                <li><a href="/auth/login">Login</a></li>
+            </ul>
+            
+        <%} %>
+    </nav>
+
+</header>

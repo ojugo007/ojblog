@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/styles.css">
+    <title>Update article</title>
+</head>
+<body>
+    <%- include("./partials/header.ejs")%>
+        <main>
+            <h2>Update Article</h2>
+            <form action="/blog/<%=blog._id%>/edit-article" method="post">
+                <div class="form-control">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" value="<%=blog.title%>" id="title" placeholder="enter the title of your article">
+                </div>
+                <div class="form-control">
+                    <label for="description">Description</label>
+                    <textarea name="description" value="<%=blog.description%>" id="description" placeholder="enter a short description about this article"></textarea>
+                </div>
+                <div class="form-control">
+                    <label for="body">Article</label>
+                    <textarea name="body" value="<%=blog.body%>"  id="body" placeholder="write your article"></textarea>
+                </div>
+                <div class="form-control">
+                    <label for="tags">Tags</label>
+                    <input type="text" name="tags" value="<%=blog.tags%>" id="tags" placeholder="enter the tags of your article">
+                </div>
+                <div class="form-control">
+                    <label for="state">will you like to publish this article?</label>
+                    <select name="state" id="state">
+                        <option value="draft"> No, Draft Article</option>
+                        <option value="published">Yes,Publish Article</option>
+                    </select>
+                </div>
+                
+                <button type="submit">submit article</button>
+            </form>
+        </main>
+
+    <%- include("./partials/footer.ejs")%>
+    
+</body>
+</html>

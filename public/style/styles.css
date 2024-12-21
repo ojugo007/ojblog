@@ -1,0 +1,259 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+:root {
+  --primary-color: #a865b5;
+  --secondary-color: #6f4685;
+  --main: whitesmoke;
+  --box-shadow: 0 1px 10px rgba(14, 75, 207, 0.15);
+  --transition: all 0.5s ease-in-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+header {
+  box-shadow: var(--box-shadow);
+  background-color: #000;
+}
+nav {
+  padding: 20px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav ul {
+  display: flex;
+  gap: 20px;
+  list-style-type: none;
+}
+nav ul li a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+nav ul li a:hover {
+  color: var(--primary-color);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+header nav img {
+  width: 80px;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 50px;
+  padding: 100px 50px;
+  background: whitesmoke;
+}
+
+.flex-wrap-one {
+  flex-basis: 50%;
+}
+.flex-wrap-one h1 {
+  font-size: 60px;
+  color: #000;
+}
+
+.flex-wrap-one p {
+  font-size: 18px;
+  line-height: 30px;
+  color: #333;
+  padding: 35px 0 50px;
+  max-width: 90%;
+}
+
+.flex-wrap-one a {
+  padding: 15px 25px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 400;
+  background-color: var(--secondary-color);
+  transition: var(--transition);
+}
+
+.flex-wrap-one a:hover {
+  background-color: var(--primary-color);
+}
+
+.flex-wrap-two {
+  flex-basis: 50%;
+}
+
+.flex-wrap-two img {
+  width: 100%;
+  height: 100%;
+}
+.auth_user,
+.auth_user ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 30px;
+}
+.auth_user small {
+  color: #fff;
+}
+.auth_user ul #dashboard-link a:hover {
+  border-bottom: 0;
+}
+.auth_user ul #dashboard-link a img {
+  width: 20px;
+  height: 20px;
+  text-decoration: none;
+}
+.blog-hero {
+  background: url("../assets/blog-hero.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100%;
+  height: 500px;
+  position: relative;
+}
+.blog-hero .overlay {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.heading,
+.heading_two {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 700;
+  padding-bottom: 50px;
+}
+.heading_two {
+  font-size: 30px;
+}
+.container section {
+  width: 100%;
+  padding: 50px 120px;
+}
+.blog-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px;
+  padding-top: 35px;
+}
+.blog-list-item {
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 50px 25px;
+  min-height: 350px;
+  box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+  padding: 80px 30px;
+  text-align: center;
+  color: #fff;
+  background-color: var(--primary-color);
+}
+.pagination {
+  width: 100%;
+  text-align: center;
+  padding: 85px 0;
+}
+
+.author_details {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  padding-bottom: 50px;
+}
+.container {
+  padding: 80px 120px;
+}
+
+.dashboard-container {
+  max-width: 100%;
+  padding: 80px 120px;
+}
+.dashboard-container h1 {
+  text-align: center;
+  font-size: 60px;
+  padding-bottom: 35px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.create-btn{
+    padding: 12px 25px;
+    text-decoration: none;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: max-content;
+}
+.create-btn span{
+    font-size: 35px;
+}
+.actions{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.update-btn, .delete-btn{
+    font-size: 16px;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: #fff;
+    font-family:"Montserrat", sans-serif ;
+    border: none;
+}
+.update-btn{
+    background-color: rgba(74, 237, 74, 0.718);
+}
+.delete-btn{
+    background-color: rgb(251, 139, 99);
+}
+.top-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

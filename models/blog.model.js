@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+const mongoosePaginate = require("mongoose-paginate-v2")
 
 const schema = mongoose.Schema
 
@@ -9,6 +9,7 @@ function calculateReadTime(content){
     const readTime = Math.ceil(numberOfWords / wordsPerMinute)
     return readTime;
 }
+
 
 const blogSchema = new schema({
     title:{
@@ -64,6 +65,8 @@ blogSchema.pre(
         next()
     }
 )
+
+blogSchema.plugin(mongoosePaginate)
 
 const blogModel = mongoose.model("blogs", blogSchema)
 

@@ -17,7 +17,7 @@ const UserSchema = new schema({
         required: true,
         unique: true
     },
-    passport:{
+    password:{
         type: String,
         required: true
     }
