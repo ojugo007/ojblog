@@ -13,8 +13,11 @@
             <h1>Innovating the Future: Explore the Latest in Technology and Development</h1>
 
             <p>Explore the latest trends and innovations in tech, from AI breakthroughs to web development tips, and stay ahead in the ever-evolving tech world.</p>
-
-            <a href="/auth/signup">Get Started</a>
+            <%if(user){%>
+                <a href="/create-new">Get Started</a>
+            <%}else{%>
+                <a href="/auth/signup">Get Started</a>
+            <% } %>
         </div>
 
         <div class="flex-wrap-two">
