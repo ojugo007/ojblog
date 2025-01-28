@@ -13,9 +13,16 @@
         <%if(blog){%>
             <div class="author_details">
                 <p>Author: <%=blog.user_id.first_name + " " + blog.user_id.last_name%></p>
-                <small>
-                    <%=blog.read_time%>mins read
-                </small>
+                <%if(blog.read_time > 1){%>
+                    <small>
+                        <%=blog.read_time%>mins read
+                    </small>
+                
+                <%}else{%>
+                    <small>
+                        <%=blog.read_time%>min read
+                    </small>
+                <%}%>
             </div>
 
             <h1><%=blog.title%></h1>

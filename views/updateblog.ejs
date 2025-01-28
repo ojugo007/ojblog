@@ -17,11 +17,11 @@
                 </div>
                 <div class="form-control">
                     <label for="description">Description</label>
-                    <textarea name="description" value="<%=blog.description%>" id="description" placeholder="enter a short description about this article"></textarea>
+                    <textarea name="description" id="description" placeholder="enter a short description about this article"> <%=blog.description%> </textarea>
                 </div>
                 <div class="form-control">
                     <label for="body">Article</label>
-                    <textarea name="body" value="<%=blog.body%>"  id="body" placeholder="write your article"></textarea>
+                    <textarea name="body" id="body" placeholder="write your article"> <%=blog.body%> </textarea>
                 </div>
                 <div class="form-control">
                     <label for="tags">Tags</label>
@@ -29,9 +29,9 @@
                 </div>
                 <div class="form-control">
                     <label for="state">will you like to publish this article?</label>
-                    <select name="state" id="state">
-                        <option value="draft"> No, Draft Article</option>
-                        <option value="published">Yes,Publish Article</option>
+                    <select name="state" id="state" value="<%=blog.state%>">
+                        <option value="draft" <%= blog.state ==="draft" ? "selected" : "" %>> No, Draft Article</option>
+                        <option value="published" <%= blog.state === "published"? "selected" : "" %> >Yes,Publish Article</option>
                     </select>
                 </div>
                 

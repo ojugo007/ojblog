@@ -37,8 +37,6 @@ const Signup = async(req, res)=>{
 
     const signupResponse = await authService.Signup(newUser)
 
-    console.log(signupResponse.data.token)
-
     res.cookie('token', signupResponse.data.token, {
         httpOnly: true, 
         secure: false, 
@@ -46,6 +44,8 @@ const Signup = async(req, res)=>{
         sameSite: 'Strict',
     });
 
+   
+   
     res.status(signupResponse.code).redirect(`/blog/author/${signupResponse.data.id}` )
     // res.status(signupResponse.code).json({message: signupResponse})
     

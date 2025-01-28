@@ -4,9 +4,10 @@ const blogService = require("../services/blog.service")
 
 const createBlog = async(req, res)=>{
     const payload = req.body
-    console.log(payload)
+
     if (!payload) {
-        return res.status(400).json({ message: "Missing required fields" });
+        // return res.status(400).json({ message: "Missing required fields" });
+        return res.status(400).render("create",{ errormessage: "Missing required fields" });
     }
     const newBlog = new blogModel({
         title: payload.title,
@@ -19,11 +20,17 @@ const createBlog = async(req, res)=>{
 
     try{
         const serviceResponse = await blogService.createBlog(newBlog)
-        
-        res.status(serviceResponse.code).json({message:serviceResponse.message})
+        if(req.headers["content-type"] ==="application/json"){
+            return res.status(serviceResponse.code).json({
+                message: serviceResponse.message,
+                data: serviceResponse.data.article,
+            });
+        }
+        // res.status(serviceResponse.code).json({serviceResponse})
+        res.status(serviceResponse.code).render("create",{serviceResponse})
     }catch(err){
         console.log(err)
-        res.status(500).json({message:err.message || "failed to create blog"})
+        res.status(400).json({message:err.message || "failed to create blog"})
     }
 
 }
@@ -41,7 +48,6 @@ const getAllPublishedBlogs = async(req, res)=>{
     // Filter by title
     if (title && title.trim()) {
         filter.title = { $regex: new RegExp(title, 'i') };
-        console.log("title filter:", title)
     }
 
     // Filter by author
@@ -74,31 +80,43 @@ const getAllPublishedBlogs = async(req, res)=>{
             });
         }
     }
-    console.log(filter, "filter after author")
     // Filter by read_time
     if (read_time && read_time.trim()) {
         filter.read_time = { $gte: Number(read_time) }; 
-        console.log("read_time filter", read_time)
     }
 
     // Filter by read_count
     if (read_count && read_count.trim()) {
         filter.read_count = { $gte: Number(read_count) }; 
-        console.log('Read count filter:', read_count);
     }
 
     // Filter by tags
     if (tags  && tags.trim()) {
         filter.tags = { $regex: new RegExp(tags, 'i') };
-        console.log('Tags filter:', tags); 
     }
-    console.log("final filter",filter)
     
     try{
         const serviceResponse = await blogService.getAllPublishedBlogs({filter,  page: currentPage, perPage:limit, sortBy, sortOrder:order})
 
+
     
         const { docs, totalDocs, totalPages, page, hasPrevPage, hasNextPage, prevPage, nextPage } = serviceResponse.data.blogs;
+        // Check if the request is expecting a JSON response (API)
+        if (req.headers['content-type'] ==="application/json") {
+            // If the request expects JSON, send the response as JSON
+            return res.status(serviceResponse.code).json({
+                message: serviceResponse.message,
+                data: docs, // Send only the blogs
+                totalBlogs: totalDocs,
+                currentPage: currentPage,
+                totalPages: totalPages,
+                hasPrevPage: hasPrevPage,
+                hasNextPage: hasNextPage,
+                prevPage: prevPage,
+                nextPage: nextPage,
+            });
+        }
+        
 
         const query = {};
         if (title) query.title = title;
@@ -121,7 +139,7 @@ const getAllPublishedBlogs = async(req, res)=>{
             filter: query
           
         })
-
+    
     }catch(err){
         console.log(err)
         res.status(500).json({message: err.message  || "Unable to retrieve all post", error: process.env.NODE_ENV === 'development' ? err.stack : undefined})
@@ -136,9 +154,24 @@ const getThisAuthorBlogs = async(req, res)=>{
     
     try{
         const serviceResponse = await blogService.getThisAuthorBlogs(user_id, loggedInUser, state, page, perPage)
+
         console.log(serviceResponse.data.blogs)
-        res.status(serviceResponse.code).render("dashboard", {blog:serviceResponse.data.blogs, user: req.user, authorId:user_id})
-        
+
+        if (req.headers['content-type'] ==="application/json") {
+            // If the request expects JSON, send the response as JSON
+            console.log(serviceResponse.message)
+
+            return res.status(serviceResponse.code).json({
+                message: serviceResponse.message,
+                data: serviceResponse.data.blogs, // Send only the blogs
+                user_id: user_id,
+                loggedInUser: loggedInUser,
+                state: state,
+                page: page,
+                perPage: perPage,
+            });
+        }
+        res.status(serviceResponse.code).render("dashboard", {blog:serviceResponse.data.blogs, user : req.user, authorId : user_id})
 
     }catch(err){
         console.log(err)
@@ -159,6 +192,17 @@ const getBlogById = async(req, res)=>{
             return res.status(404).json({ message: "Blog not found" });
         }
 
+        if (req.headers['content-type'] ==="application/json") {
+            // If the request expects JSON, send the response as JSON
+            console.log(serviceResponse.message)
+
+            return res.status(serviceResponse.code).json({
+                message: serviceResponse.message,
+                data: serviceResponse.data, // Send only the blogs
+                // user_id: res.locals.user._id,
+            
+            });
+        }
         res.status(serviceResponse.code).render("singleblog",{blog: serviceResponse.data.blog, user: res.locals.user})
     }catch(err){
         console.log(err)
@@ -193,7 +237,6 @@ const updateBlog = async(req, res)=>{
         return res.status(400).json({ message: "blog not found" });
     }
     try{
-
         const serviceResponse = await blogService.updateBlog(blogId, payload, loggedInUser);
         res.status(serviceResponse.code).json(serviceResponse)
     
@@ -210,7 +253,7 @@ const deleteBlog = async(req, res)=>{
 
     const serviceResponse = await blogService.deleteBlog(blogId,loggedInUser)
 
-    res.status(serviceResponse.code).json(serviceResponse.message)
+    res.status(serviceResponse.code).json(serviceResponse)
 
 }
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/styles.css">
+    <title>404 Page</title>
+</head>
+<body>
+    <%- include('./partials/header.ejs') %>
+        <main class="container" style="height:50vh;text-align:center">
+            <h3 style="padding-bottom: 35px; font-size: 30px;"><%=code%> - <%=message%></h3>
+            <img src="/assets/404.png" alt="error-computer" width="200">
+        </main>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>

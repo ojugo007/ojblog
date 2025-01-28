@@ -1,6 +1,5 @@
 const express = require("express")
 require("dotenv").config()
-const connectToMongoDB = require("./db")
 const authRoute = require("./routes/auth.route")
 const blogRoute = require("./routes/blog.route")
 const path = require("path")
@@ -8,10 +7,10 @@ const cookieParser = require('cookie-parser');
 const userMiddleware = require("./middlewares/user.middleware")
 const authMiddleware = require("./middlewares/auth.middleware")
 var methodOverride = require('method-override')
-
-const PORT = process.env.PORT
+const  helmet = require("helmet")
 
 const app = express()
+app.use(helmet())
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json());
@@ -20,7 +19,7 @@ app.set("view engine", "ejs")
 app.use(cookieParser());
 app.use(methodOverride('_method'))
 
-connectToMongoDB()
+
 app.use(userMiddleware.attachUserToLocals)
 app.use("/auth", authRoute)
 
@@ -53,20 +52,20 @@ app.get("/blog/author/:id", (req, res)=>{
 
 app.use((error, req, res, next)=>{
     console.log('Path: ', req.path)
-    console.error('Error: ', error)
+    console.error('Error: ', error.message)
 
     if(error){
         res.status(500).json({
-            message:err.message
+            message:error.message
         })
     }
     next()
 })
 
-app.get('*', (req, res) => {
-    res.json({ message: 'Route not found', code: 404 })
+app.get('*',userMiddleware.attachUserToLocals, (req, res) => {
+    res.status(404).render("notfound",{ message: 'Page not found', code: 404, user: res.locals.user })
 })
 
-app.listen(PORT, ()=>{
-    console.log(`server is running on http://localhost:${PORT}`)
-})
+
+
+module.exports = app;

@@ -65,11 +65,7 @@ const getAllPublishedBlogs = async ({
     query.read_count = { $gte: filter.read_count.$gte }; 
   }
 
-  console.log("query from service:", filter)
-  console.log("query from service for author:", filter.author)
-  console.log("query from service for author:", filter.author)
-  console.log("filter from service:", query)
-  console.log("filter from servicefor author:", query.author)
+
 
   // sorting
 
@@ -84,10 +80,10 @@ const getAllPublishedBlogs = async ({
     sortOptions.read_count = sortOrder;
 
   } else if (sortBy === "created_at") {
-
     sortOptions.created_at = sortOrder; 
   }
-  console.log("query:",query)
+
+  
   const blogs = await blogModel.paginate( query, {
     page,
     limit: perPage,
@@ -156,6 +152,7 @@ const getBlogById = async (blogId) => {
     message: "Blog retrieved successfully",
   };
 };
+
 const getUpdateBlogId = async( blogId)=>{
   const blog = await blogModel.findById(blogId)
   if(!blog){
@@ -176,6 +173,7 @@ const getUpdateBlogId = async( blogId)=>{
   };
 
 }
+
 const updateBlog = async (
   blogId,
   { title, description, body, updated_at, state, tags },

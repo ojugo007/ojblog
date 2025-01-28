@@ -51,7 +51,7 @@
                     <form method="POST" action="/blog/<%=article._id%>/delete?_method=DELETE" >
                         <button type="submit" class="delete-btn">Delete article</button>
                     </form>
-
+                    <a href="/blog/<%=article._id%>" style="text-decoration: none;"><img src="/assets/show.png" alt="view" width="30px"></a>
                 </td>
             </tr>
           <% }); %>
