@@ -2,7 +2,6 @@ const UserModel = require("../models/user.model")
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
 
-
 const Login = async({email, password})=>{
     try{
         const user = await UserModel.findOne({email})
@@ -15,6 +14,7 @@ const Login = async({email, password})=>{
                 message: "Invalid credential"
             }
         }
+
         const validPass = await user.validatePassword(password)
 
         if(!validPass){
@@ -26,7 +26,7 @@ const Login = async({email, password})=>{
             }
         }
 
-        const token = jwt.sign({email}, process.env.JWT_SECRET)
+        const token = jwt.sign({email:user.email}, process.env.JWT_SECRET)
 
         return{
             code:200,

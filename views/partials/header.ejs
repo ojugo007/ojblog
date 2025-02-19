@@ -3,9 +3,11 @@
         <a href="/">
             <img src="/assets/oJtech.png" alt="ojtech-logo">
         </a>
+        <div class="flex_wrap">
+        
         <% if(user){%>
+            <small >welcome back, <%= user.first_name %> </small>
             <div class="auth_user">
-                <small >welcome back, <%= user.first_name %> </small>
                 <ul>
                     <li>
                         <a href="/blog">Blog</a>
@@ -26,6 +28,10 @@
             </ul>
             
         <%} %>
+        <span class="menu">
+            <img src="/assets/list.png" alt="menu">
+        </span>
+        </div>
     </nav>
 
 </header>

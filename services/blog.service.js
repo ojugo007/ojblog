@@ -1,39 +1,73 @@
 const blogModel = require("../models/blog.model");
 const UserModel = require("../models/user.model");
+const cloudinary = require("../integrations/cloudinary")
+const fs = require("fs")
 
 const calculateReadCount = async (blogId) => {
   try {
     const blog = await blogModel.findOne({ _id: blogId });
-    if (!blog) {
+    if(!blog) {
       throw new Error("blog not found");
     }
+
     blog.read_count += 1;
     await blog.save();
     return blog.read_count;
+
   } catch (err) {
     console.log(err);
     throw new Error("an error occurred while update read_count");
   }
 };
 
-const createBlog = async ({ title, description, body, user_id, state, tags }) => {
-  const article = await blogModel.create({
-    title,
-    description,
-    body,
-    user_id: user_id,
-    state,
-    tags,
-  });
+const createBlog = async ({ title, description, body, user_id, state, tags, image_url }) => {
 
-  return {
-    code: 201,
-    success: true,
-    data: {
-      article,
-    },
-    message: "Article created successfully",
-  };
+  try{
+    if (image_url) {
+      const response = await cloudinary.uploader.upload(image_url.path);
+      console.log("cloudinary upload response", response)
+      // Delete the file from the server after uploading to Cloudinary
+      fs.unlink(image_url.path, (err) => {
+        if (err) {
+          console.log('Error deleting file: ', err);
+        } else {
+          console.log('File deleted successfully');
+        }
+      });
+
+      image_url = response.secure_url;  
+      console.log("image_url", image_url)
+    }
+
+    const article = await blogModel.create({
+      title,
+      description,
+      body,
+      user_id: user_id,
+      state,
+      tags,
+      image_url
+    });
+    
+    return {
+      code: 201,
+      success: true,
+      data: {
+        article,
+      },
+      message: "Article created successfully",
+    };
+
+  }catch(error){
+    console.log(error.message)
+    return {
+      code: 500,
+      success: false,
+      data: null,
+      message: "unable to submit article",
+    };
+
+  }
 };
 
 const getAllPublishedBlogs = async ({
@@ -153,7 +187,7 @@ const getBlogById = async (blogId) => {
   };
 };
 
-const getUpdateBlogId = async( blogId)=>{
+const getUpdateBlogId = async(blogId)=>{
   const blog = await blogModel.findById(blogId)
   if(!blog){
     return{

@@ -15,13 +15,20 @@ const userSignupSchema = joi.object({
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
         .required(),
     password: joi.string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{7,30}$"))
-      .required()
-      .messages({
-        "string.pattern.base": `Password should be between 7 to 30 characters and contain letters or numbers only`,
+    //.pattern(new RegExp("^[a-zA-Z0-9]{7,30}$"))
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/)
+    .required()
+    .messages({
+        "string.pattern.base": `Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long.`,
         "string.empty": `Password cannot be empty`,
         "any.required": `Password is required`,
-      }),
+    }),
+      
+    //   .messages({
+    //     "string.pattern.base": `Password should be between 7 to 30 characters and contain letters or numbers only`,
+    //     "string.empty": `Password cannot be empty`,
+    //     "any.required": `Password is required`,
+    //   }),
 })
 
 const userLoginSchema = joi.object({
@@ -29,13 +36,13 @@ const userLoginSchema = joi.object({
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
         .required(),
     password:joi.string()
-        .pattern(new RegExp("^[a-zA-Z0-9]{7,30}$"))
-        .required()
-        .messages({
-            "string.pattern.base": `Password should be between 7 to 30 characters and contain letters or numbers only`,
-            "string.empty": `Password cannot be empty`,
-            "any.required": `Password is required`,
-        }),
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/)
+    .required()
+    .messages({
+        "string.pattern.base": `Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long.`,
+        "string.empty": `Password cannot be empty`,
+        "any.required": `Password is required`,
+    }),
 })
 
 const validateSignup = async(req, res, next)=>{

@@ -7,13 +7,15 @@ const cookieParser = require('cookie-parser');
 const userMiddleware = require("./middlewares/user.middleware")
 const authMiddleware = require("./middlewares/auth.middleware")
 var methodOverride = require('method-override')
-const  helmet = require("helmet")
+// const  helmet = require("helmet") 
+const UserModel = require("./models/user.model")
 
 const app = express()
-app.use(helmet())
+// app.use(helmet()) Helmet blocked images from cloudinary from displaying due to content security policy (csp),look into how to configure csp in helmet
+
+app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.json());
 app.set("views", "views")
 app.set("view engine", "ejs")
 app.use(cookieParser());
@@ -49,6 +51,18 @@ app.get("/auth/login", (req, res)=>{
 app.get("/blog/author/:id", (req, res)=>{
     res.render("dashboard")
 })
+
+// reset or update readersAccess to an empty array
+const resetReadersAccess = async () => {
+    try{
+        await UserModel.updateMany({}, { $set: { readersAccess: [] } });
+        console.log('Reset readersAccess for all users');
+    }catch(error){
+        console.log("unable to reset readersAccess for all users", error.message)
+    }
+};
+// Run the reset function every 24 hours (86400000 ms)
+setInterval(resetReadersAccess, 86400000); 
 
 app.use((error, req, res, next)=>{
     console.log('Path: ', req.path)

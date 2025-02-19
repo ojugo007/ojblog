@@ -8,7 +8,7 @@ const Login = async(req, res)=>{
         email : payload.email, 
         password : payload.password
     })
-    
+    console.log(loginResponse)
     res.cookie('token', loginResponse.data.token, {
         httpOnly: true, 
         secure: false, 
@@ -47,7 +47,7 @@ const Signup = async(req, res)=>{
    
    
     res.status(signupResponse.code).redirect(`/blog/author/${signupResponse.data.id}` )
-    // res.status(signupResponse.code).json({message: signupResponse})
+    // res.status(signupResponse.code).json({signupResponse})
     
 
 }

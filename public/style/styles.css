@@ -16,6 +16,7 @@ body {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  position: relative;
 }
 header {
   box-shadow: var(--box-shadow);
@@ -42,7 +43,18 @@ nav ul li a:hover {
   padding-bottom: 2px;
   border-bottom: 1px solid var(--primary-color);
 }
-
+nav .flex_wrap{
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.menu{
+  display: none;
+ 
+}
+.menu img{
+  width:30px;
+}
 header nav img {
   width: 80px;
 }
@@ -99,7 +111,7 @@ header nav img {
   justify-content: space-between;
   column-gap: 30px;
 }
-.auth_user small {
+nav small {
   color: #fff;
 }
 .auth_user ul #dashboard-link a:hover {
@@ -360,4 +372,26 @@ form select{
     width: 100%;
     height: 80px;
     
+}
+.hero-wrap{
+  width: 100%;
+  height: 450px;
+}
+.hero-wrap img{
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (max-width: 960px){
+  .auth_user{
+    /* display: none; */
+    position: absolute;
+    top: 90px;
+    right: 0;
+    width: 50%;
+  }
+  .menu{
+    display: flex;
+  }
+
 }

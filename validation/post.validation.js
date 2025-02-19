@@ -16,7 +16,9 @@ const blogSchema = joi.object({
     state: joi.string()
         .required(),
     tags: joi.string()
-        .required()
+        .required(),
+    image_url: joi.string()
+        .required(),
 
 })
 

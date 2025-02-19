@@ -24,10 +24,28 @@
                     </small>
                 <%}%>
             </div>
+            <%if(blog.image_url){%>
+                <div class="single-blog-wrap">
+                    <div class="hero-wrap">
+                        <img src="<%=blog.image_url%>" alt="image hero"/>
+                    </div>
+                    <div class="blog-text">
+                        <h1><%=blog.title%></h1>
+                        <p><%=blog.description%></p>
+                        <p><%=blog.body%></p>
+                    </div>
 
-            <h1><%=blog.title%></h1>
-            <p><%=blog.description%></p>
-            <p><%=blog.body%></p>
+                </div>
+            <%}else{%>
+                <div class="single-blog-wrapper">
+                    <div class="blog-text">
+                        <h1><%=blog.title%></h1>
+                        <p><%=blog.description%></p>
+                        <p><%=blog.body%></p>
+                    </div>
+                </div>
+            <%} %>
+
 
         <%}else{%>
             <h3>404? page not found</h3>

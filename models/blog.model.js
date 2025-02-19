@@ -46,6 +46,11 @@ const blogSchema = new schema({
         type: String,
         default: ""
     },
+    // added image url
+    image_url:{
+        type: String,
+        required: true,
+    },
     created_at:{
         type: Date,
         default: Date.now
